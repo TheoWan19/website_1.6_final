@@ -58,3 +58,46 @@ class UserChangeForm(forms.ModelForm):
 	def clean_password(self):
 		return self.initial['password']	
 
+
+class CustomerSignUpForm(UserCreationForm):
+
+	MALE = 'MALE'
+	FEMALE = 'FEMALE'
+
+	GENDER_CHOICES = (
+		(MALE, 'Male'),
+		(FEMALE, 'Female'),
+	)
+
+	email = forms.EmailField(widget=forms.EmailInput())
+	name = forms.CharField(widget=forms.TextInput())
+	phone = PhoneNumberField()
+	password1 = forms.CharField(label='Password', widget=forms.PasswordInput())
+	password2 = forms.CharField(label='Password Confirm', widget=forms.PasswordInput())
+
+	first_name = forms.CharField(widget=forms.TextInput())
+	last_name = forms.CharField(widget=forms.TextInput())
+	date_of_birth = forms.DateField()
+	gender = forms.ChoiceField(label='Gender', choices=GENDER_CHOICES)
+	location = forms.CharField(widget=forms.TextInput())
+		
+
+	class Meta:
+		model = User
+		fields = ('email', 'name', 'phone', 'date_of_birth', 'first_name', 'last_name', 'gender', 'uid', 'location', 'password1', 'password2')
+		widgets = {
+			'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+			'phone': PhoneNumberPrefixWidget(initial='US'),
+		}
+
+	@transaction.atomic
+	def save(self, commit=True):
+		user = super().save(commit=False)
+		user.is_customer = True
+		if commit:
+			user.save()
+		customer = CustomerUser.objects.create(user=user, name=self.cleaned_data.get('name'), phone=self.cleaned_data.get('phone'), first_name=self.cleaned_data.get('first_name'), last_name=self.cleaned_data.get('last_name'), date_of_birth=self.cleaned_data.get('date_of_birth'), gender=self.cleaned_data.get('gender'), uid=self.cleaned_data.get('uid'), location=self.cleaned_data.get('location'))
+		return user
+
+
+
