@@ -46,12 +46,15 @@ INSTALLED_APPS = [
     'core',
     'market',
     'store',
+    'codes',
     #third apps
     'phonenumber_field',
     'tailwind',
     'theme',
     'django_browser_reload',
     'django_babel',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -62,6 +65,9 @@ INTERNAL_IPS = [
 ]
 
 NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
