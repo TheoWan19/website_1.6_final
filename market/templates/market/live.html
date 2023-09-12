@@ -1,0 +1,38 @@
+{% extends 'market/base.html' %}
+{% block title %}Live{% endblock %}
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-1">1</div>
+			<div class="col-10 mt-4">
+				{% for i in responses %}
+				<div class="row justify-content">
+					<div class="col-4">
+						<div class="card" style="width: 18rem;">
+						  <img src="{{i.teams.home.logo}}" class="card-img-top" alt="...">
+						  <div class="card-body">
+						    <h5 class="card-title">{{i.teams.home.name}}</h5>
+						    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+						    <a href="{% url 'team' pk=i.teams.home.id %}" class="btn btn-primary">{{i.teams.home.name}} Detail</a>
+						  </div>
+						</div>
+					</div>
+					<div class="col-2 text-center">VS</div>
+					<div class="col-4">
+						<div class="card" style="width: 18rem;">
+						  <img src="{{i.teams.away.logo}}" class="card-img-top" alt="...">
+						  <div class="card-body">
+						    <h5 class="card-title">{{i.teams.away.name}}</h5>
+						    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+						    <a href="{% url 'team' pk=i.teams.away.id %}" class="btn btn-primary">{{i.teams.away.name}} Detail</a>
+						  </div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="col-1">1</div>
+		</div>
+	</div>
+{% endblock %}
+{% block script %}{% endblock %}
