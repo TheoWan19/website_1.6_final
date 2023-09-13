@@ -19,44 +19,47 @@
 		                <div class="team">
 		                    <img  id="homeLogo" src="{{i.teams.home.logo}}">
 		                    <p id="homeName">{{i.teams.home.name}}</p>
+		                    <p><a href="{% url 'team' pk=i.teams.home.id %}" class="btn btn-primary">Detail</a></p>
 		                </div>
 		                <p id="goals">3  -  1</p>
 		                <div class="team">
 		                    <img id="awayLogo" src="{{i.teams.away.logo}}">
 		                    <p id="awayName">{{i.teams.away.name}}</p>
+		                    <p><a href="{% url 'team' pk=i.teams.away.id %}" class="btn btn-primary">Detail</a></p>
 		                </div>
 		                 
 		            </div>
-		            {% endfor %}
 		            <hr>
-		            <div id="matchTable" class="matches-table">
-						<nav arial-label="Page navigation example">
-							{% if responses.has_other_pages %}
-							<ul class="pagination" style="text-transform: lowercase; text-align: center; letter-spacing: 1px;">
-								{% if responses.has_previous %}
-									<li class="page-item"><a href="?page={{ responses.previous_page_number }}" class="page-link">&laquo;</a></li>
-								{% else %}
-									<li class="page-item "><span>&laquo;</span></li>	
+		            	<div><p><a href="{% url 'odd' pk=i.fixture.id %}" class="btn btn-primary">Odds Betting</a></p></div>
+		            <hr>
+		            {% endfor %}
+
+		         
+					<nav arial-label="Page navigation example">
+						{% if responses.has_other_pages %}
+						<ul class="pagination" style="text-transform: lowercase; text-align: center; letter-spacing: 1px;">
+							{% if responses.has_previous %}
+								<li class="page-item"><a href="?page={{ responses.previous_page_number }}" class="page-link">&laquo;</a></li>
+							{% else %}
+								<li class="page-item "><span>&laquo;</span></li>	
+							{% endif %}
+
+							{% for x in responses.paginator.page_range %}
+								{% if responses.number == x %}
+									<li class="active page-item"><span>{{ x }}<span class="sr-only">(current)</span></span></li>
+								{% else %}	
+									<li><a href="?page={{ x }}" class="page-link">{{ x }}</a></li>
 								{% endif %}
+							{% endfor %}
 
-								{% for x in responses.paginator.page_range %}
-									{% if responses.number == x %}
-										<li class="active page-item"><span>{{ x }}<span class="sr-only">(current)</span></span></li>
-									{% else %}	
-										<li><a href="?page={{ x }}" class="page-link">{{ x }}</a></li>
-									{% endif %}
-								{% endfor %}
-
-								{% if responses.has_next %}
-									<li class="page-item"><a href="?page={{ responses.next_page_number }}" class="page-link">&raquo;</a></li>
-								{% else %}
-									<li class="disabled page-item"><span>&raquo;</span></li>	
-								{% endif %}
-							</ul>
-						{% endif %}
-						</nav>
-					</div>
-
+							{% if responses.has_next %}
+								<li class="page-item"><a href="?page={{ responses.next_page_number }}" class="page-link">&raquo;</a></li>
+							{% else %}
+								<li class="disabled page-item"><span>&raquo;</span></li>	
+							{% endif %}
+						</ul>
+					{% endif %}
+					</nav>
 		        </div>
 			</div>
 			<div class="col-1"></div>
