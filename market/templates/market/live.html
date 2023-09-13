@@ -1,38 +1,68 @@
 {% extends 'market/base.html' %}
 {% block title %}Live{% endblock %}
+{% load static %}
+{% block style %} <link rel="stylesheet" type="text/css" href="/static/market/css/main.css/?{% now 'U' %}">{% endblock %}
 {% block content %}
 	<div class="container">
-		<div class="row">
-			<div class="col-1">1</div>
+		<div class="row justify-content">
+			<div class="col-1"></div>
 			<div class="col-10 mt-4">
 				{% for i in responses %}
-				<div class="row justify-content">
-					<div class="col-4">
-						<div class="card" style="width: 18rem;">
-						  <img src="{{i.teams.home.logo}}" class="card-img-top" alt="...">
-						  <div class="card-body">
-						    <h5 class="card-title">{{i.teams.home.name}}</h5>
-						    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-						    <a href="{% url 'team' pk=i.teams.home.id %}" class="btn btn-primary">{{i.teams.home.name}} Detail</a>
-						  </div>
-						</div>
+				<div class="container">
+		            <h1>ScoreBoard</h1>
+		            <div class="title-box">
+		                <p>Local Team</p>
+		                <p id="elapsed">45'</p>
+		                <p>Visitor Team</p>
+		            </div>
+		            <div class="title-box">
+		                <div class="team">
+		                    <img  id="homeLogo" src="{{i.teams.home.logo}}">
+		                    <p id="homeName">{{i.teams.home.name}}</p>
+		                </div>
+		                <p id="goals">3  -  1</p>
+		                <div class="team">
+		                    <img id="awayLogo" src="{{i.teams.away.logo}}">
+		                    <p id="awayName">{{i.teams.away.name}}</p>
+		                </div>
+		                 
+		            </div>
+		            {% endfor %}
+		            <hr>
+		            <div id="matchTable" class="matches-table">
+						<nav arial-label="Page navigation example">
+							{% if responses.has_other_pages %}
+							<ul class="pagination" style="text-transform: lowercase; text-align: center; letter-spacing: 1px;">
+								{% if responses.has_previous %}
+									<li class="page-item"><a href="?page={{ responses.previous_page_number }}" class="page-link">&laquo;</a></li>
+								{% else %}
+									<li class="page-item "><span>&laquo;</span></li>	
+								{% endif %}
+
+								{% for x in responses.paginator.page_range %}
+									{% if responses.number == x %}
+										<li class="active page-item"><span>{{ x }}<span class="sr-only">(current)</span></span></li>
+									{% else %}	
+										<li><a href="?page={{ x }}" class="page-link">{{ x }}</a></li>
+									{% endif %}
+								{% endfor %}
+
+								{% if responses.has_next %}
+									<li class="page-item"><a href="?page={{ responses.next_page_number }}" class="page-link">&raquo;</a></li>
+								{% else %}
+									<li class="disabled page-item"><span>&raquo;</span></li>	
+								{% endif %}
+							</ul>
+						{% endif %}
+						</nav>
 					</div>
-					<div class="col-2 text-center">VS</div>
-					<div class="col-4">
-						<div class="card" style="width: 18rem;">
-						  <img src="{{i.teams.away.logo}}" class="card-img-top" alt="...">
-						  <div class="card-body">
-						    <h5 class="card-title">{{i.teams.away.name}}</h5>
-						    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-						    <a href="{% url 'team' pk=i.teams.away.id %}" class="btn btn-primary">{{i.teams.away.name}} Detail</a>
-						  </div>
-						</div>
-					</div>
-				</div>
-				{% endfor %}
+
+		        </div>
 			</div>
-			<div class="col-1">1</div>
+			<div class="col-1"></div>
 		</div>
 	</div>
 {% endblock %}
-{% block script %}{% endblock %}
+{% block script %}
+	<script type="text/javascript" src="/static/market/js/main.js?{% now 'U' %}" defer></script>
+{% endblock %}

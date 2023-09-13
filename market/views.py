@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import requests
 import environ
 
@@ -36,6 +37,17 @@ def live(request):
 			print(response)
 	"""
 	responses = data['response']
+
+	page = request.GET.get('page', 1)
+	paginator = Paginator(responses, 2)
+
+	try:
+		responses = paginator.page(page)
+	except PageNotInteger:
+		responses = paginator.page(1)
+	except EmptyPage:
+		responses = paginator.page(paginator.num_pages)		
+	
 	return render(
 		request=request,
 		template_name='market/live.html',
