@@ -39,7 +39,7 @@ def live(request):
 	responses = data['response']
 
 	page = request.GET.get('page', 1)
-	paginator = Paginator(responses, 2)
+	paginator = Paginator(responses, 1)
 
 	try:
 		responses = paginator.page(page)
